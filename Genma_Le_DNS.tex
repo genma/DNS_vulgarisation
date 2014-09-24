@@ -1,0 +1,163 @@
+\documentclass{beamer}
+\mode<presentation> {
+%\usetheme{Madrid}
+%\usetheme{default}
+\usepackage{color}
+\definecolor{bottomcolour}{rgb}{0.21,0.11,0.21}
+\definecolor{middlecolour}{rgb}{0.21,0.11,0.21}
+\setbeamercolor{structure}{fg=white}
+\setbeamertemplate{frametitle}[default]%[center]
+\setbeamercolor{normal text}{bg=black, fg=white}
+\setbeamertemplate{background canvas}[vertical shading]
+[bottom=bottomcolour, middle=middlecolour, top=black]
+\setbeamertemplate{items}[circle]
+\setbeamertemplate{navigation symbols}{} %no nav symbols
+\setbeamercolor{block title}{use=structure,fg=white,bg=structure.fg!50!red!50!blue!100!green}
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!5!white!10!bg,fg=white}
+\setbeamertemplate{navigation symbols}{}
+}
+
+\usepackage{graphicx} 
+\usepackage{booktabs} 
+\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}  
+\usepackage{geometry}     
+\usepackage[francais]{babel} 
+\usepackage{eurosym}
+\usepackage{verbatim}
+\usepackage{ragged2e}
+\justifying
+
+\input{cc_beamer}
+
+\title[DNS]{DNS} 
+\author{Genma}
+
+\begin{document}
+
+%% Titlepage
+\begin{frame}
+	\titlepage
+	\vfill
+	\begin{center}
+		\CcGroupByNcSa{0.83}{0.95ex}\\[2.5ex]
+		{\tiny\CcNote{\CcLongnameByNcSa}}
+		\vspace*{-2.5ex}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{But de cette présentation}
+\justifying{Cette présentation est une vulgarisation (et donc une simplification) sur le thème du DNS. Elle se veut accessible à tous et peut de ce fait contenir des approximations.}
+\end{frame}
+
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Quelques principes}
+\justifying{
+\begin{block}{Principes}
+\begin{itemize}
+\item Les machines connectés à un réseau IP, comme Internet, possèdent une adresse IP. 
+\item Ils envoient et recoivent des "paquets" (comme des colis) qui transitent sur le réseau vers une destination dont l'adresse finale est l'adresse IP du serveur ou celle de la machine.
+\item Les machines utilisent des adresses IP (des nombres) car cela est plus facile à utiliser dans le cadre de traitement informatisé.
+\end{itemize}
+\end{block}
+L'humain lui préfère mémoriser du texte qu'une série de nombre abstraits.
+}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Qu'est ce que le DNS?}
+\justifying{
+\begin{block}{Principes}
+\begin{itemize}
+\item Les sites webs sont associés à des noms de domaines et se trouvent sur des serveurs (qui ont une adresse IP).
+\item Un serveur DNS est un annuaire qui fait la correspondance nom de domaine - adresse IP.
+\end{itemize}
+\end{block}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Comment ça marche?}
+\justifying{
+\begin{block}{Version simplifiée - vulgarisée}
+\begin{itemize}
+\item Quand on tape une adresse url dans le navigateur, par exemple http://genma.free.fr, l'ordinateur va demander au serveur DNS
+quel est l'adresse IP du serveur où se trouve le site web demandé.
+\item L'ordinateur connait alors l'adresse IP du site web.
+\item Il peut alors envoyer des paquets ("Envoi moi la page d'accueil que je l'affiche", "Tiens voilà les login et mots de passe") et communiquer avec le site web.
+\end{itemize}
+\end{block}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Qu'est ce que le blocage par le DNS?}
+\justifying{
+\begin{block}{Principe du blocage}
+\begin{itemize}
+\item On enlève la correspondance nom de domaine - adresse IP de l'annuaire DNS.
+\item Quand une machine demande à ce serveur DNS l'adresse IP d'un site web dont on souhaite bloquer l'accès aux utilisateurs \url{http://www.piratebay.com}, le serveur DNS ne renvoit rien.
+\end{itemize}
+Conséquence : le site web ne s'affiche pas.
+\end{block}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Comment le contourner et limites du blocage?}
+\begin{block}{Deux façons simples}
+\begin{itemize}
+\item Connaitre l'adresse IP du serveur et se connecter au site web via une url du type \url{http://123.456.789.012:80}
+\item Changer de serveur DNS pour en utiliser un qui contient la correspondance. En effet, par défaut, on utilise les serveurs DNS de son fournisseur d'accès (Free, SFR etc.) qui sont tenues d'appliquer la loi et de "bloquer" l'accès à des sites des jeux en lignes.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Utiliser le DNS de Google?}
+\justifying{
+\begin{block}{Google fourni un DNS}
+\begin{itemize}
+\item Google fourni des serveurs DNS aux adresses très simples :  8.8.8.8 et 8.8.4.4 
+\item En les utilisant, Google sait quels sont les sites que l'on consulte... 
+\end{itemize}
+Rq : en utilisant le DNS du FAI, il en est de même. De même si on cherche le nom d'un site web via Google et que l'on clique sur le résultat proposé...
+\end{block}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{DNS et Tor}
+\justifying{
+\begin{block}{Quand on utilise TOR}
+\begin{itemize}
+\item Les requêtes DNS (les demandes de correspondances IP/nom de domaine) ne passent par TOR.
+\item C'est l'IP de la machine (et non celle de "TOR") qui fait la demande DNS. 
+\item "On" sait donc quel site vous allez consulter (mais le site lui-même ne connaitra pas votre vraie adresse IP, vu que la communication se fait via les adresses IP et via Tor).
+\end{itemize}
+\end{block}
+C'est ce que l'on appelle le DNS Leak.
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Qu'est ce que DNSSec?}
+\justifying{
+\begin{block}{Présentation de DNSSec}
+\begin{itemize}
+\item DNSSEC permet de sécuriser les données envoyées par le DNS.
+\item DNSSEC signe cryptographiquement les enregistrements DNS et met cette signature dans le DNS. 
+\item Ainsi, un client DNS méfiant peut récupérer la signature et, s'il possède la clé du serveur, vérifier que les données sont correctes. 
+\end{itemize}
+\end{block}
+On valide que la correspondance "url-IP" que l'on reçoit est bien celle qui a été certifiée-validée et n'a pas été changée entre temps.
+}
+\end{frame}
+
+\end{document}
