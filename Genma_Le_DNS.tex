@@ -67,7 +67,6 @@
 L'humain lui préfère mémoriser du texte qu'une série de nombre abstraits.
 }
 \end{frame}
-
 %------------------------------------------------
 \begin{frame}
 \frametitle{Qu'est ce que le DNS?}
@@ -80,7 +79,7 @@ L'humain lui préfère mémoriser du texte qu'une série de nombre abstraits.
 \end{block}
 }
 \end{frame}
-
+%------------------------------------------------
 \begin{frame}
 \frametitle{Comment ça marche?}
 \justifying{
@@ -94,7 +93,7 @@ quel est l'adresse IP du serveur où se trouve le site web demandé.
 \end{block}
 }
 \end{frame}
-
+%------------------------------------------------
 \begin{frame}
 \frametitle{Qu'est ce que le blocage par le DNS?}
 \justifying{
@@ -107,7 +106,7 @@ Conséquence : le site web ne s'affiche pas.
 \end{block}
 }
 \end{frame}
-
+%------------------------------------------------
 \begin{frame}
 \frametitle{Comment le contourner et limites du blocage?}
 \begin{block}{Deux façons simples}
@@ -116,8 +115,9 @@ Conséquence : le site web ne s'affiche pas.
 \item Changer de serveur DNS pour en utiliser un qui contient la correspondance. En effet, par défaut, on utilise les serveurs DNS de son fournisseur d'accès (Free, SFR etc.) qui sont tenues d'appliquer la loi et de "bloquer" l'accès à des sites des jeux en lignes.
 \end{itemize}
 \end{block}
+Mode geek : on peut utiliser son propre résolveur DNS en local.
 \end{frame}
-
+%------------------------------------------------
 \begin{frame}
 \frametitle{Utiliser le DNS de Google?}
 \justifying{
@@ -130,22 +130,28 @@ Rq : en utilisant le DNS du FAI, il en est de même. De même si on cherche le n
 \end{block}
 }
 \end{frame}
-
+%------------------------------------------------
 \begin{frame}
-\frametitle{DNS et Tor}
-\justifying{
-\begin{block}{Quand on utilise TOR}
+\frametitle{DNS et TOR}
 \begin{itemize}
-\item Les requêtes DNS (les demandes de correspondances IP/nom de domaine) ne passent par TOR.
-\item C'est l'IP de la machine (et non celle de "TOR") qui fait la demande DNS. 
-\item "On" sait donc quel site vous allez consulter (mais le site lui-même ne connaitra pas votre vraie adresse IP, vu que la communication se fait via les adresses IP et via Tor).
+\item Les requêtes DNS (les demandes de correspondances IP/nom de domaine) passent par TOR.
+\item Le noeud  de sortie effectue la résolution DNS.
 \end{itemize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{DNS Leak}
+\begin{block}{Avec un VPN mal configuré (par exemple)}
+\justifying{
+\begin{itemize}
+\item C'est l'IP de la machine (et non celle du VPN) qui fait la demande DNS car la demande ne passe pas par le tunnel VPN. 
+\item "On" sait donc quel site vous allez consulter (mais le site lui-même ne connaitra pas votre vraie adresse IP, vu que la communication se fait via / derrière le VPN).
+\end{itemize}
+}
 \end{block}
 C'est ce que l'on appelle le DNS Leak.
-}
 \end{frame}
-
-
+%------------------------------------------------
 \begin{frame}
 \frametitle{Qu'est ce que DNSSec?}
 \justifying{
@@ -153,7 +159,7 @@ C'est ce que l'on appelle le DNS Leak.
 \begin{itemize}
 \item DNSSEC permet de sécuriser les données envoyées par le DNS.
 \item DNSSEC signe cryptographiquement les enregistrements DNS et met cette signature dans le DNS. 
-\item Ainsi, un client DNS méfiant peut récupérer la signature et, s'il possède la clé du serveur, vérifier que les données sont correctes. 
+\item Ainsi, un client DNS méfiant peut récupérer la signature et, s'il possède la clé du serveur, vérifier que les données sont correctes. La clé pouvant être récupérée via le DNS lui-même.
 \end{itemize}
 \end{block}
 On valide que la correspondance "url-IP" que l'on reçoit est bien celle qui a été certifiée-validée et n'a pas été changée entre temps.
